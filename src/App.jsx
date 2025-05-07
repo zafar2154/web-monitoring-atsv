@@ -5,14 +5,40 @@ import { MapPin } from "lucide-react";
 export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gray-100 p-4">
-      <div className="bg-gray-700 text-white rounded-t-xl px-6 py-3 text-xl font-bold flex justify-between">
-        <span>Nama Tim: MARC Dewasrani</span>
-        <span>PT: UPNVJ</span>
-      </div>
+      <NavBar />
+      <Main/>
+    </div>
+  );
+}
 
-      <div className="bg-white px-6 py-4">
+function NavBar() {
+  return(
+    <div className="bg-gray-700 text-white rounded-t-xl px-6 py-3 text-xl font-bold flex justify-between">
+        <span>Nama Tim: MARC Dewasrani</span>
+        <span>UPNVJ</span>
+      </div>
+  )
+}
+
+function Main() {
+  return(
+    <div className="bg-white px-6 py-4">
         <p className="font-semibold mb-4">Lintasan: A</p>
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
+        <State/>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <Map/>
+          <div className="overflow-x-auto">
+            <p className="font-semibold mb-2">Geotag:</p>
+            <LogState/>
+          </div>
+        </div>
+      </div>
+  )
+}
+
+function State() {
+  return(
+    <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
           <Card>
             <CardContent className="p-4">
               <p className="text-gray-600 text-sm">GYRO X</p>
@@ -50,19 +76,24 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         </div>
+  )
+}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-          <div className="aspect-video w-full bg-blue-100 rounded-xl overflow-hidden">
+function Map() {
+  return(
+    <div className="aspect-video w-full bg-blue-100 rounded-xl overflow-hidden">
             <iframe
               className="w-full h-full"
               src="https://www.openstreetmap.org/export/embed.html?bbox=112.7560%2C-7.3322%2C112.7570%2C-7.3320"
               title="Map"
             ></iframe>
-          </div>
+    </div>
+  )
+}
 
-          <div className="overflow-x-auto">
-            <p className="font-semibold mb-2">Geotag:</p>
-            <table className="min-w-full bg-white border">
+function LogState() {
+  return(
+  <table className="min-w-full bg-white border">
               <thead>
                 <tr className="bg-gray-100">
                   <th className="border px-2 py-1 text-sm">Day</th>
@@ -104,9 +135,5 @@ export default function Dashboard() {
                 </tr>
               </tbody>
             </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  )
 }
