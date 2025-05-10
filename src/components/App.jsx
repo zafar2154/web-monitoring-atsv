@@ -3,6 +3,8 @@ import '../App.css'
 import { MapPin } from "lucide-react";
 import State from "./state";
 import LogState from "./log";
+import Map from "./map";
+
 export default function Dashboard() {
 
   const [data, setData] = useState('');
@@ -68,14 +70,3 @@ function Main({children}) {
   )
 }
 
-function Map() {
-  return(
-    <div className="aspect-video w-full bg-blue-100 rounded-xl overflow-hidden">
-            <iframe
-              className="w-full h-full"
-              src="https://www.openstreetmap.org/export/embed.html?bbox=112.7560%2C-7.3322%2C112.7570%2C-7.3320"
-              title="Map"
-            ></iframe>
-    </div>
-  )
-}

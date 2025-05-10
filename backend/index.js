@@ -30,4 +30,13 @@ app.get('/log', (req, res) => {
             res.json(result);
         })
 })
+
+app.get('/coordinate', (req, res) => {
+    db.query('SELECT coordinate1, coordinate2 FROM geotag',
+        (err, result) => {
+            if (err) return res.status(500).json({ error: err });
+            res.json(result);
+        })
+})
+
 app.listen(3001, () => console.log('Server running on port 3001'));

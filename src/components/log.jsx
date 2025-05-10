@@ -41,7 +41,6 @@ export default function LogState() {
                 </tr>
                 
                 ))}
-                
               </tbody>
             </table>
   )
