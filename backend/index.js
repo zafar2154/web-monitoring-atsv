@@ -17,14 +17,14 @@ app.get('/data', (req, res) => {
         'SELECT * FROM geotag LIMIT 1',
         (err, results) => {
             if (err) return res.status(500).json({ error: err });
-            res.json(results[0]); // hanya kirim 1 objek, bukan array
+            res.json(results[0]);
         }
     );
 });
 
 app.get('/log', (req, res) => {
     db.query(
-        'SELECT * FROM geotag LIMIT 10',
+        'SELECT day, date, time, coordinate1, coordinate2, ROUND(sog1, 2) AS sog1, ROUND(sog2, 2) AS sog2, ROUND(gyrox, 4) AS gyrox, ROUND(gyroy, 4) AS gyroy, ROUND(gyroz, 4) AS gyroz, cog FROM geotag LIMIT 5',
         (err, result) => {
             if (err) return res.status(500).json({ error: err });
             res.json(result);
