@@ -3,10 +3,13 @@ import '../App.css'
 import { MapPin } from "lucide-react";
 import State from "./state";
 import LogState from "./log";
+import Map from "./map";
+import ImageCapture from './ImageCapture';
+
 export default function Dashboard() {
 
   const [data, setData] = useState('');
-  const [loading, setLoading] = useState(true); // Tambah state loading
+  const [loading, setLoading] = useState(null); // Tambah state loading
 
   const fetchData = () => {
     fetch("http://localhost:3001/data")
@@ -23,6 +26,13 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchData();
+    
+    const interval=setInterval(()=>{
+      fetchData();
+    }, 3000);
+
+    return () => clearInterval(interval);
+
   }, []);
 
   if (loading) {
@@ -35,7 +45,6 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4">
-      <p>ini adalah data cog : {data.gyrox}</p>
       <NavBar />
       <Main>
         <State data={data}/>
@@ -46,37 +55,31 @@ export default function Dashboard() {
 
 function NavBar() {
   return(
-    <div className="bg-gray-700 text-white rounded-t-xl px-6 py-3 text-xl font-bold flex justify-between">
+    <div className="bg-gradient-to-b from-blue-600 to-blue-300 text-white rounded-t-xl px-6 py-3 text-xl font-bold flex justify-between h-20 items-center">
         <span>Nama Tim: MARC Dewasrani</span>
-        <span>UPNVJ</span>
+        <div className='flex items-center space-x-3'>
+          <img src="iot.png" alt="iot" className='w-auto h-12 object-contain bg-gray-100 rounded-4xl'/>
+          <img src="x.png" alt="x"  className='h-7 w-auto object-contain'/>
+          <img src="jalasatva.png" alt="jalasatva" className='w-auto h-12 object-contain bg-gray-100 rounded-4xl' />
+        </div>
       </div>
   )
 }
 
 function Main({children}) {
   return(
-    <div className="bg-white px-6 py-4">
+    <div className="bg-white px-5 py-4">
         <p className="font-semibold mb-4">Lintasan: A</p>
         {children}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <Map/>
           <div className="overflow-x-auto">
-            <p className="font-semibold mb-2">Geotag:</p>
+            <p className="font-semibold mb-2">data log:</p>
             <LogState/>
+            <ImageCapture/>
           </div>
         </div>
       </div>
   )
 }
 
-function Map() {
-  return(
-    <div className="aspect-video w-full bg-blue-100 rounded-xl overflow-hidden">
-            <iframe
-              className="w-full h-full"
-              src="https://www.openstreetmap.org/export/embed.html?bbox=112.7560%2C-7.3322%2C112.7570%2C-7.3320"
-              title="Map"
-            ></iframe>
-    </div>
-  )
-}

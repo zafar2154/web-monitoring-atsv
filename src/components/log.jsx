@@ -1,46 +1,47 @@
+import { useState, useEffect } from "react"
+import formatDate from "../helper/date"
 
 export default function LogState() {
+    const [log, setLog] = useState([]);
+
+    function fetchLog() {
+        fetch("http://localhost:3001/log")
+        .then((res)=>res.json())
+        .then((result)=>setLog(result));
+    }
+
+
+    useEffect(()=>{
+        fetchLog();
+        const timeInterval = setInterval(()=>{fetchLog();}, 3000); //refresh data tiap 3 detik
+
+        return () => clearInterval(timeInterval);
+    }, []);
+    
   return(
   <table className="min-w-full bg-white border">
               <thead>
                 <tr className="bg-gray-100">
-                  <th className="border px-2 py-1 text-sm">Day</th>
                   <th className="border px-2 py-1 text-sm">Date</th>
                   <th className="border px-2 py-1 text-sm">Time</th>
                   <th className="border px-2 py-1 text-sm">Coord</th>
-                  <th className="border px-2 py-1 text-sm">Speed (Km/j)</th>
+                  <th className="border px-2 py-1 text-sm">Speed (Km/h)</th>
                   <th className="border px-2 py-1 text-sm">Speed (Knot)</th>
                   <th className="border px-2 py-1 text-sm">COG</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="border px-2 py-1 text-sm">Sat</td>
-                  <td className="border px-2 py-1 text-sm">26/10/2024</td>
-                  <td className="border px-2 py-1 text-sm">10:01:30</td>
-                  <td className="border px-2 py-1 text-sm">S -7.3321165 E 112.7567628</td>
-                  <td className="border px-2 py-1 text-sm">0.410 km/j</td>
-                  <td className="border px-2 py-1 text-sm">0.221 Knot</td>
-                  <td className="border px-2 py-1 text-sm">273.94</td>
+                {log.map((log)=>(
+                    <tr key={log.id}>
+                  <td className="border px-2 py-1 text-sm">{formatDate(log.date)}</td>
+                  <td className="border px-2 py-1 text-sm">{log.time}</td>
+                  <td className="border px-2 py-1 text-sm">S {log.latitude} E {log.longitude}</td>
+                  <td className="border px-2 py-1 text-sm">{log.sog1} km/h</td>
+                  <td className="border px-2 py-1 text-sm">{log.sog2} Knot</td>
+                  <td className="border px-2 py-1 text-sm">{log.cog}</td>
                 </tr>
-                <tr>
-                  <td className="border px-2 py-1 text-sm">Sat</td>
-                  <td className="border px-2 py-1 text-sm">26/10/2024</td>
-                  <td className="border px-2 py-1 text-sm">10:01:38</td>
-                  <td className="border px-2 py-1 text-sm">S -7.3321059 E 112.7567545</td>
-                  <td className="border px-2 py-1 text-sm">0.664 km/j</td>
-                  <td className="border px-2 py-1 text-sm">0.358 Knot</td>
-                  <td className="border px-2 py-1 text-sm">285.66</td>
-                </tr>
-                <tr>
-                  <td className="border px-2 py-1 text-sm">Sat</td>
-                  <td className="border px-2 py-1 text-sm">26/10/2024</td>
-                  <td className="border px-2 py-1 text-sm">10:01:43</td>
-                  <td className="border px-2 py-1 text-sm">S -7.3320927 E 112.7567534</td>
-                  <td className="border px-2 py-1 text-sm">0.619 km/j</td>
-                  <td className="border px-2 py-1 text-sm">0.333 Knot</td>
-                  <td className="border px-2 py-1 text-sm">345.71</td>
-                </tr>
+                
+                ))}
               </tbody>
             </table>
   )
