@@ -4,6 +4,7 @@ import { MapPin } from "lucide-react";
 import State from "./state";
 import LogState from "./log";
 import Map from "./map";
+import ImageCapture from './ImageCapture';
 
 export default function Dashboard() {
 
@@ -68,8 +69,7 @@ function Main({children}) {
           <div className="overflow-x-auto">
             <p className="font-semibold mb-2">data log:</p>
             <LogState/>
-            <p className='font-semibold mb-2 mt-2'>surface image</p>
-            
+            <ImageCapture/>
           </div>
         </div>
       </div>

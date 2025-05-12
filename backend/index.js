@@ -1,9 +1,19 @@
 import express from 'express';
 import cors from 'cors';
 import mysql from 'mysql2';
+import WebSocketServer from 'ws';
+import multer from 'multer';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 app.use(cors());
 app.use(express.json());
+
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -12,9 +22,11 @@ const db = mysql.createConnection({
     database: 'kki_asv'
 });
 
+app.listen(3001, () => console.log('Server running on port 3001'));
+
 app.get('/data', (req, res) => {
     db.query(
-        'SELECT * FROM geotag LIMIT 1',
+        'SELECT date FROM geotag LIMIT 1',
         (err, results) => {
             if (err) return res.status(500).json({ error: err });
             res.json(results[0]);
@@ -39,4 +51,42 @@ app.get('/coordinate', (req, res) => {
         })
 })
 
-app.listen(3001, () => console.log('Server running on port 3001'));
+const upload = multer({ dest: 'uploads/' });
+
+app.post('/upload/surface', upload.single('image'), (req, res) => {
+    const tempPath = req.file.path;
+    const targetPath = path.join(__dirname, 'uploads', 'surface.jpg');
+    fs.rename(tempPath, targetPath, err => {
+        if (err) return res.sendStatus(500);
+        res.json({ message: 'Upload berhasil!' });
+    });
+});
+
+app.get('/image/surface', (req, res) => {
+    const imgPath = path.join(__dirname, 'uploads', 'surface.jpg');
+    if (fs.existsSync(imgPath)) {
+        res.sendFile(imgPath);
+    } else {
+        res.status(404).json({ error: 'Gambar belum tersedia' });
+    }
+});
+
+
+app.post('/upload/underwater', upload.single('image'), (req, res) => {
+    const tempPath = req.file.path;
+    const targetPath = path.join(__dirname, 'uploads', 'underwater.jpg');
+
+    fs.rename(tempPath, targetPath, err => {
+        if (err) return res.sendStatus(500);
+        res.json({ message: 'Upload underwater berhasil!' });
+    });
+});
+
+app.get('/image/underwater', (req, res) => {
+    const imgPath = path.join(__dirname, 'uploads', 'underwater.jpg');
+    if (fs.existsSync(imgPath)) {
+        res.sendFile(imgPath);
+    } else {
+        res.status(404).json({ error: 'Underwater image not found' });
+    }
+});
