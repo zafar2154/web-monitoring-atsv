@@ -47,16 +47,20 @@ export default function Dashboard() {
 
 function NavBar() {
   return(
-    <div className="bg-gray-700 text-white rounded-t-xl px-6 py-3 text-xl font-bold flex justify-between">
+    <div className="bg-gradient-to-b from-blue-600 to-blue-300 text-white rounded-t-xl px-6 py-3 text-xl font-bold flex justify-between h-20 items-center">
         <span>Nama Tim: MARC Dewasrani</span>
-        <span>UPNVJ</span>
+        <div className='flex items-center space-x-3'>
+          <img src="iot.png" alt="iot" className='w-auto h-12 object-contain bg-gray-100 rounded-4xl'/>
+          <img src="x.png" alt="x"  className='h-7 w-auto object-contain'/>
+          <img src="jalasatva.png" alt="jalasatva" className='w-auto h-12 object-contain bg-gray-100 rounded-4xl' />
+        </div>
       </div>
   )
 }
 
 function Main({children}) {
   return(
-    <div className="bg-white px-6 py-4">
+    <div className="bg-white px-5 py-4">
         <p className="font-semibold mb-4">Lintasan: A</p>
         {children}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
@@ -64,6 +68,8 @@ function Main({children}) {
           <div className="overflow-x-auto">
             <p className="font-semibold mb-2">data log:</p>
             <LogState/>
+            <p className='font-semibold mb-2 mt-2'>surface image</p>
+            
           </div>
         </div>
       </div>

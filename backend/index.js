@@ -24,7 +24,7 @@ app.get('/data', (req, res) => {
 
 app.get('/log', (req, res) => {
     db.query(
-        'SELECT day, date, time, coordinate1, coordinate2, ROUND(sog1, 2) AS sog1, ROUND(sog2, 2) AS sog2, ROUND(gyrox, 4) AS gyrox, ROUND(gyroy, 4) AS gyroy, ROUND(gyroz, 4) AS gyroz, cog FROM geotag LIMIT 5',
+        'SELECT date, time, latitude, longitude, ROUND(sog1, 2) AS sog1, ROUND(sog2, 2) AS sog2, ROUND(gyro_x, 4) AS gyro_x, ROUND(gyro_y, 4) AS gyro_y, ROUND(gyro_z, 4) AS gyro_z, cog FROM geotag LIMIT 5',
         (err, result) => {
             if (err) return res.status(500).json({ error: err });
             res.json(result);
@@ -32,7 +32,7 @@ app.get('/log', (req, res) => {
 })
 
 app.get('/coordinate', (req, res) => {
-    db.query('SELECT coordinate1, coordinate2 FROM geotag',
+    db.query('SELECT latitude, longitude FROM geotag',
         (err, result) => {
             if (err) return res.status(500).json({ error: err });
             res.json(result);
