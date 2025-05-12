@@ -6,12 +6,16 @@ const [surfaceImage, setSurfaceImage] = useState();
 const [underwaterImage, setUnderwaterImage] = useState();
 
 useEffect(() => {
-    // Fetch gambar saat komponen pertama kali dimuat
-    const urlSurface = `http://localhost:3001/image/surface?time=${Date.now()}`;
-    setSurfaceImage(urlSurface);
+    const updateImages = () => {
+    const timestamp = Date.now(); // supaya gambar tidak di-cache browser
+    setSurfaceImage(`http://localhost:3001/image/surface?time=${timestamp}`);
+    setUnderwaterImage(`http://localhost:3001/image/underwater?time=${timestamp}`);
+    };
 
-    const urlUnderwater = `http://localhost:3001/image/underwater?time=${Date.now()}`;
-    setUnderwaterImage(urlUnderwater);
+    updateImages(); // tampilkan gambar saat pertama kali
+    const interval = setInterval(updateImages, 3000); // refresh tiap 3 detik
+
+    return () => clearInterval(interval); // bersihkan interval saat komponen unmount
 }, []);
 
 return (
@@ -19,7 +23,7 @@ return (
         <div className="mr-2">
             <p className="font-semibold mb-2">Surface Image</p>
         {surfaceImage ? (
-        <img src={surfaceImage} alt="Gambar kamera" className="w-80 border rounded-xl" />
+        <img src={surfaceImage} alt="Surface Image" className="w-80 border rounded-xl" />
       ) : (
         <p>Memuat gambar...</p>
       )}
@@ -27,7 +31,7 @@ return (
       <div className="mx-2">
         <p className="font-semibold mb-2">Underwater Image</p>
       {underwaterImage ? (
-        <img src={underwaterImage} alt="Gambar kamera" className="w-80 border rounded-xl" />
+        <img src={underwaterImage} alt="Underwater Image" className="w-80 border rounded-xl" />
       ) : (
         <p>Memuat gambar...</p>
       )}

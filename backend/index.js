@@ -26,7 +26,7 @@ app.listen(3001, () => console.log('Server running on port 3001'));
 
 app.get('/data', (req, res) => {
     db.query(
-        'SELECT date FROM geotag LIMIT 1',
+        'SELECT * FROM geotag LIMIT 1',
         (err, results) => {
             if (err) return res.status(500).json({ error: err });
             res.json(results[0]);
@@ -53,6 +53,7 @@ app.get('/coordinate', (req, res) => {
 
 const upload = multer({ dest: 'uploads/' });
 
+// surface image api
 app.post('/upload/surface', upload.single('image'), (req, res) => {
     const tempPath = req.file.path;
     const targetPath = path.join(__dirname, 'uploads', 'surface.jpg');
@@ -71,7 +72,7 @@ app.get('/image/surface', (req, res) => {
     }
 });
 
-
+// underwater image api
 app.post('/upload/underwater', upload.single('image'), (req, res) => {
     const tempPath = req.file.path;
     const targetPath = path.join(__dirname, 'uploads', 'underwater.jpg');

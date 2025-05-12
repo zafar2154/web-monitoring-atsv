@@ -9,7 +9,7 @@ import ImageCapture from './ImageCapture';
 export default function Dashboard() {
 
   const [data, setData] = useState('');
-  const [loading, setLoading] = useState(true); // Tambah state loading
+  const [loading, setLoading] = useState(null); // Tambah state loading
 
   const fetchData = () => {
     fetch("http://localhost:3001/data")
@@ -26,6 +26,13 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchData();
+    
+    const interval=setInterval(()=>{
+      fetchData();
+    }, 3000);
+
+    return () => clearInterval(interval);
+
   }, []);
 
   if (loading) {

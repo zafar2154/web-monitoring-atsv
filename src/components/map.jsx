@@ -25,6 +25,11 @@ export default function Map() {
 
     useEffect(()=>{
         fetchTrack();
+        const interval = setInterval(()=>{
+          fetchTrack();
+        },3000);
+        
+        return(()=>clearInterval(interval))
     }, [])
 
 
@@ -43,7 +48,7 @@ export default function Map() {
             <MapContainer center={center} zoom={100} className="w-full h-full">
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
                 {track.map((pos, idx)=>(
-                    <CircleMarker key={idx} center={[pos.latitude, pos.longitude]} radius={1} >
+                    <CircleMarker key={idx} center={[pos.latitude, pos.longitude]} radius={3} >
                         <Popup>
             <b>Lat:</b> {pos.latitude}<br />
             <b>Lng:</b> {pos.longitude}
