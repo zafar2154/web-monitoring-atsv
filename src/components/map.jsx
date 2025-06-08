@@ -17,7 +17,7 @@ export default function Map() {
     const [track, setTrack] = useState([]);
 
     function fetchTrack(){
-        fetch('http://localhost:3001/coordinate')
+        fetch('https://web-monitoring-atsv-production.up.railway.app/coordinate')
         .then(res=>res.json())
         .then()
         .then(result=>setTrack(result));

@@ -5,7 +5,7 @@ export default function LogState() {
     const [log, setLog] = useState([]);
 
     function fetchLog() {
-        fetch("http://localhost:3001/log")
+        fetch("https://web-monitoring-atsv-production.up.railway.app//log")
         .then((res)=>res.json())
         .then((result)=>setLog(result));
     }
