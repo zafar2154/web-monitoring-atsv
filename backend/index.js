@@ -6,7 +6,17 @@ import multer from 'multer';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
 
+dotenv.config();
+
+const db = mysql.createConnection({
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+});
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -14,15 +24,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'kki_asv'
-});
-
-app.listen(3001, () => console.log('Server running on port 3001'));
+app.listen(3001, () => console.log('Server running on port 3001. check data : http://localhost:3001/data'));
 
 app.get('/data', (req, res) => {
     db.query(
