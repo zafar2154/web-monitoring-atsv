@@ -12,7 +12,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(null); // Tambah state loading
 
   const fetchData = () => {
-    fetch("http://localhost:3001/data")
+    fetch("https://web-monitoring-atsv-production.up.railway.app/data")
       .then((res) => res.json())
       .then((result) => {
         setData(result);

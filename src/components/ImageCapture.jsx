@@ -8,8 +8,8 @@ const [underwaterImage, setUnderwaterImage] = useState();
 useEffect(() => {
     const updateImages = () => {
     const timestamp = Date.now(); // supaya gambar tidak di-cache browser
-    setSurfaceImage(`http://localhost:3001/image/surface?time=${timestamp}`);
-    setUnderwaterImage(`http://localhost:3001/image/underwater?time=${timestamp}`);
+    setSurfaceImage(`https://web-monitoring-atsv-production.up.railway.app/image/surface?time=${timestamp}`);
+    setUnderwaterImage(`https://web-monitoring-atsv-production.up.railway.app/image/underwater?time=${timestamp}`);
     };
 
     updateImages(); // tampilkan gambar saat pertama kali
